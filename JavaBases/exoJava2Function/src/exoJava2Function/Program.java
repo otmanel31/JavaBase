@@ -13,6 +13,9 @@ public class Program {
 		System.out.println("is palindrome ==> "+ isPalindrome("madama"));
 		afficher("test micro");
 		
+		System.out.println(chiffreRomain(55));
+		System.out.println(chiffreRomain(100));
+		System.out.println(chiffreRomain(18));
 
 	}
 	public static  int function1(double ... values ) {
@@ -72,6 +75,42 @@ public class Program {
 			
 		}
 		
+	}
+	public static String chiffreRomain(int number) {
+		/*
+		 * 1 ->  I		10 X 	100 c
+		 * 2->   II		20 XX	200 cc
+		 * 3 ->	 III	30 XXX	300 CCC
+		 * 4 ->	 IV		40 XL	400 CD
+		 * 5->	V		50 L	500 D
+		 * 6->	VI		60 LX	600 DC
+		 * 7->	VII		70 LXX	700 DCC
+		 * 8->	VII		80 LXXX	800 DCC
+		 * 9->	IX		90 XC	900 CM
+		 * 10->	X		100 C	1000 M
+		 */
+		int centaine = (number / 100) % 10;  // 521 -> 5
+		int dizaine = (number / 10) % 10; // 521 --> 52 % 10 -> 2
+		int unite = number % 10; // 521 % 10 -> 1
+		return  sousChiffreRomain(centaine, new char[] {'C', 'D', 'M'})
+						+ sousChiffreRomain(dizaine, new char[] {'X', 'L', 'C'})
+						+ sousChiffreRomain(unite, new char[] {'I', 'V', 'X'});
+	}
+	public static String sousChiffreRomain(int number, char[] sigles) {
+		switch (number) {
+			case 0: return "";
+			case 1: return "" + sigles[0];
+			case 2: return "" + sigles[0] + sigles[0];
+			case 3: return "" + sigles[0] + sigles[0] + sigles[0];
+			case 4: return "" + sigles[0] + sigles[1];
+			case 5: return "" + sigles[1];
+			case 6: return "" + sigles[1] + sigles[0];
+			case 7: return "" + sigles[1] + sigles[0] + sigles[0];
+			case 8: return "" + sigles[1] + sigles[0] + sigles[0] + sigles[0];
+			case 9: return "" + sigles[0] + sigles[2];
+		
+		}
+		return "";
 	}
 
 }
