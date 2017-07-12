@@ -78,5 +78,17 @@ public class Contact {
 		return "Contact [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", genre=" + genre
 				+ ", age=" + age + ", isGold=" + isGold + ", referent=" + referent + "]";
 	}
-	
+	public String toCsv() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getClass().getName()).append(";")
+			.append(getId()).append(";")
+			.append(getGenre()).append(";")
+			.append(getNom()).append(";")
+			.append(getPrenom()).append(";")
+			.append(getAge()).append(";")
+			.append(getGenre()).append(";")
+			.append(getEmail()).append(";")
+			.append(getReferent()).append(";");
+			return sb.toString();
+	}
 }

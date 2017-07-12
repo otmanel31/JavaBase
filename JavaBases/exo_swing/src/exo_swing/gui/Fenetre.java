@@ -5,8 +5,12 @@ import java.awt.HeadlessException;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Scanner;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -18,6 +22,10 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -146,6 +154,52 @@ public class Fenetre extends JFrame implements ListSelectionListener, ActionList
 		ageTextFilter.setActionCommand(AGE_FILTER);
 		refreshList();
 		// AJOUT SAUVEGARDE DANS UN FICHIER
+		// mise en place d'un menu
+		JMenuBar barmenu = new JMenuBar();
+		JMenu menuFile = new JMenu("File");
+		barmenu.add(menuFile);
+		JMenuItem saveFile = new JMenuItem("Save file"); // HERE ONCLICK EVENT SAVE FILE
+		JMenuItem openFile  = new JMenuItem("Open file");
+		menuFile.add(saveFile);
+		setJMenuBar(barmenu);
+		
+		saveFile.addActionListener(new ActionListener() {  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				File f = new File("repertoire.csv");
+				try {
+					final PrintWriter writer = new PrintWriter(f);
+					contactFullData.stream().forEach(c->writer.println(c.toCsv()));
+					writer.close();
+				}catch(FileNotFoundException e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "error during opening file", "error", JOptionPane.ERROR_MESSAGE);
+				}
+				JOptionPane.showMessageDialog(null, "Data save on repertoire.csv file", "operation complete",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		
+		// open data from file
+		openFile.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				File f = new File("repertoire.csv");
+				
+				try {
+					Scanner reader = new Scanner(f);
+					while(reader.hasNext()) {
+						String line = reader.nextLine();
+						
+					}
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 
 	}
 	private void refreshList() {
