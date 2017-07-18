@@ -1,0 +1,2 @@
+testDirs\rep1
+testDirs\rep2
