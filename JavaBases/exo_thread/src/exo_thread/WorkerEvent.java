@@ -10,6 +10,7 @@ public class WorkerEvent implements Runnable{
 	private String name;
 	private String path;
 	private int size;
+	private RepertoireEvents rep;
 	
 	
 	public String getName() {return name;}
@@ -17,10 +18,11 @@ public class WorkerEvent implements Runnable{
 		this.name = name;
 	}
 	
-	public WorkerEvent(String name, String path) {
+	public WorkerEvent(String name, String path, RepertoireEvents r) {
 		super();
 		setName(name);
 		this.path  = path;
+		this.rep = r;
 	}
 	
 	@Override
@@ -32,19 +34,16 @@ public class WorkerEvent implements Runnable{
 			
 			String[] listFiles = new File(this.path).list();
 			final String[] toFind = oldFiles;
-			//List<String> changement = 
+
 			Arrays.stream(listFiles)
 				  .filter(f -> !(Arrays.stream(toFind).anyMatch(f2 -> f.equals(f2))))
-				  .forEach( f -> System.out.println(f));
+				  .forEach( f ->System.out.println(f));
 			if (listFiles.length < oldFiles.length) System.out.println( "un fichier a été supprimé!" );
-				  //.collect(Collectors.toList());
-			/*if (changement.size() > 0 ) 
-				changement.stream().forEach(f-> System.out.println("changement detecté " + f));*/
+
 			oldFiles = listFiles;
 				try {
 					Thread.sleep(5000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}		
 		}
