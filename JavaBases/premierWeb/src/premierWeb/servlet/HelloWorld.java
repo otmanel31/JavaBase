@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 // deux maniere de declarer ine servelet ds une webapp
 // ssoit par annotation
 // soit via le fichier config web.xml
+// les ervlet doivetn obligatoirzement hérité de httpServelet
 
-
-@WebServlet("/HelloWorld")
+@WebServlet("/HelloWorld") // permet de faire le mapping sans specifier ds le webXml
 public class HelloWorld extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -43,7 +43,19 @@ public class HelloWorld extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		doGet(request, response);
+		//doGet(request, response);
+		if (request.getParameter("name") == null) response.sendRedirect("index.html");
+		String nom = request.getParameter("name");
+		String email = request.getParameter("email");
+		
+		response.setContentType("text/html");
+		PrintWriter pw = response.getWriter();
+		pw.println("<html>");
+		pw.println("<head><title>Je suis un servlet esclave </title></head>");
+		pw.println("<body><h1>Hello information user</h1><p>Nom: "+nom +" mail "+email +
+				"</p><a href='index.html'>return home page</a></body>");
+		pw.println("</html>");
+		pw.close();
 	}
 
 }
