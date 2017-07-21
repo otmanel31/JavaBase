@@ -23,7 +23,7 @@
 		</thead>
 		<tbody>
 		<% /*<!-- version jstl
-		<c:forEach  items="produits" var="p">
+		<c:forEach  items="${produits}" var="p">
 			<tr>
 						<td><c:out value="${p.id}" /></td>
 						<td></td>
