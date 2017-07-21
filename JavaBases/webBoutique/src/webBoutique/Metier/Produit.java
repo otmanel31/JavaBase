@@ -25,7 +25,7 @@ public class Produit {
 		setPoid(poid);
 	}
 	public Produit() {
-		this(0,"",0.0,0.0);
+		this(0,"produuit default",0.0,0.0);
 	}
 
 	@Override

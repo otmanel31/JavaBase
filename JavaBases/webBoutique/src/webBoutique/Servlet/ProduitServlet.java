@@ -41,13 +41,20 @@ public class ProduitServlet extends HttpServlet {
 		// fournir les produits a la page jsp
 			
 		request.setAttribute("produits", produitDao.findAll());
-		getServletContext().getRequestDispatcher("/vues/produit/liste.jsp")
+		getServletContext().getRequestDispatcher("/vues/produit/list-css.jsp")
 			.forward(request, response);
 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		// gestion de la suppression
+		if (request.getParameter("produitId") == null ) {
+			response.sendRedirect("Produit");
+			return;
+		}
+		// appelert la suprresion via le dao	
+		produitDao.deleteProduit(Integer.parseInt(request.getParameter("produitId")));
+		response.sendRedirect("Produit");
 	}
 
 }
