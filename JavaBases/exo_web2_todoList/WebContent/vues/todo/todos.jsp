@@ -12,7 +12,7 @@
 </head>
 <body>
 	<div class="container">
-	<h2 class="display1">My todos</h2>
+	<h2 class="display1">My todos</h2>  <a href="TodoCreation" class="btn btn-success">Creer une todo</a>
 	<table class="table table-stripped">
 		<thead>
 			<tr>
@@ -34,7 +34,14 @@
 					<td><c:out value="${t.contexte}" /></td>
 					<td><c:out value="${t.finished}" /></td>
 					<td><c:out value="${t.dateCreation}" /></td>
-					<td><a href="TodoEdition?todoId=<c:out value="${p.id}"/>" class="btn btn-primary">Editer</a></td>
+					<td>
+						<a href="TodoCreation?todoId=<c:out value="${t.id}"/>" class="btn btn-primary">Editer</a>
+					
+						<form method="post" action="TodoList" style="display: inline-block;">
+							<input type="hidden" name="todoId" id="id" value="<c:out value="${t.id}" />"/>
+							<button type="submit" class="btn btn-danger">Delete</button>
+						</form>
+					</td>
 				</tr>
 				
 			</c:forEach>

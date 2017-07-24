@@ -1,6 +1,9 @@
 package ewo_web2_todoList.Metier;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 
 public class Todo {
 	private int id;
@@ -9,6 +12,7 @@ public class Todo {
 	private String contexte;
 	private boolean finished;
 	private LocalDateTime dateCreation;
+	private String dateToStr;
 	
 	public int getId() {return id;}
 	public void setId(int id) {this.id = id;}
@@ -27,6 +31,23 @@ public class Todo {
 	
 	public LocalDateTime getDateCreation() {return dateCreation;}
 	public void setDateCreation(LocalDateTime dateCreation) {this.dateCreation = dateCreation;}
+	
+	public String getDateToStr() {
+		/*SimpleDateFormat formater = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
+		System.out.println(getDateCreation());
+		dateToStr = formater.format(getDateCreation());*/
+		//System.out.println(dateToStr);
+		
+		DateTimeFormatter df = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd HH:mm:ss").toFormatter();
+		return getDateCreation().format(df);
+
+	}
+	public void setDateToStr(String date) {
+		//DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		date = date.replace(" ", "T");
+		LocalDateTime datetime = LocalDateTime.parse(date ,DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+		setDateCreation(datetime);
+	}
 	
 	public Todo(int id, String description, int priorite, String contexte, 
 			boolean finsished,LocalDateTime dateCreation) {

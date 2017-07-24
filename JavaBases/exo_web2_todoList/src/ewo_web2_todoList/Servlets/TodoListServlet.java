@@ -36,7 +36,13 @@ public class TodoListServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		// manage delete one todo
+		if (request.getParameter("todoId") == null ) {
+			response.sendRedirect("TodoList");
+			return;
+		}
+		todoDao.delete(Integer.parseInt(request.getParameter("todoId")));
+		response.sendRedirect("TodoList");
 	}
 
 }
