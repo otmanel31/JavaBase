@@ -33,6 +33,26 @@
 		<action name="delete" class="com.otmanel.videoTech.actions.FilmAction" method="deleteFilm">
 			<result name="success" type="redirect">/films</result>
 		</action>
+		
+		<!--  action version modelDrive -->
+		<action name="filmsMd" class="com.otmanel.videoTech.actions.FilmActionMd" method="listFilms">
+			<result name="success">/films/liste-md.jsp</result>
+		</action>
+		<action name="editMd" class="com.otmanel.videoTech.actions.FilmActionMd" method="editerFilm">
+			<result name="success">/films/form-md.jsp</result>
+			<result name="error">/films/notFound.jsp</result>
+		</action>
+		<action name="saveMd" class="com.otmanel.videoTech.actions.FilmActionMd" method="saveFilm">
+			<result name="input">/films/form-md.jsp</result>
+			<result name="success" type="redirect">/filmsMd</result>
+			<result name="error">/films/notFound.jsp</result>
+		</action>
+		<action name="createMd" class="com.otmanel.videoTech.actions.FilmActionMd" method="creerFilm">
+			<result name="success">/films/form-md.jsp</result>
+		</action>
+		<action name="deleteMd" class="com.otmanel.videoTech.actions.FilmActionMd" method="deleteFilm">
+			<result name="success" type="redirect">/filmsMd</result>
+		</action>
     </package>
 
     <!-- Add addition packages and configuration here. -->
