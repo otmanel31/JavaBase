@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="vendors/bootstrap/css/bootstrap.css" />
+<s:url action="" var="baseurl"/>
+<link rel="stylesheet" type="text/css" href="<s:property value='baseurl' />vendors/bootstrap/css/bootstrap.css" />
 <title>Editer</title>
 <style type="text/css">
 	.erreur_saisie {

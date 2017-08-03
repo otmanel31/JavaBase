@@ -18,7 +18,8 @@
 		<action name="voyages" class="com.otmanel.eox_struts_2_voyages.actions.VoyageAction" method="listVoyages">
 			<result name="success">/voyage/voyages.jsp</result>
 		</action >
-		<action name="editer" class="com.otmanel.eox_struts_2_voyages.actions.VoyageAction" method="editerVoyage">
+		<action name="editer/*" class="com.otmanel.eox_struts_2_voyages.actions.VoyageAction" method="editerVoyage">
+			<param name="id">{1}</param>
 			<result name="success">/voyage/form.jsp</result>
 			<result name="error">/voyage/error.jsp</result>
 		</action >

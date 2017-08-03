@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">             
+   <persistence-unit name="testHibernate">
+
+      <!-- ici on indique quon va utiliser le proider ou fournisseur du service jpa
+      	autrement dit hibernate ou openJpa ...
+       -->
+       <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<!-- stricto sensu pas necessaire car configurer pour trouver les entité tt seul ds le properties -->
+	   <class>com.otmanel.firstJpa.beans.Message</class>
+  
+	<!--  permet de passer des params a hibernate pour gerer les persistances -->
+      <properties>
+          <!-- Scan for annotated classes and Hibernate mapping XML files -->
+          <!--  ici on dit de scanner automatiquzement les classe pour sauvegarder d'eventuel objet -->
+          <property name="hibernate.archive.autodetection" value="class, hbm"/>
+			<!--  class => les annotations ds le codes sources pour autodetections des 
+				classe que lon souhaite persister , hbm => confvia hbm.xml si pas annotations
+			 -->
+        
+        <!--  affiche les requetes ds la consoles -->
+          <property name="hibernate.show_sql" value="true"/>
+          <property name="hibernate.format_sql" value="true"/>
+          <property name="use_sql_comments" value="true"/>
+         
+		<!-- coonection string,==> definition de notre datasource -->
+          <property name="javax.persistence.jdbc.driver"
+                    value="com.mysql.jdbc.Driver"/>
+          <property name="javax.persistence.jdbc.url"
+                    value="jdbc:mysql://localhost:3306/base_firstJpa"/>
+          <property name="javax.persistence.jdbc.user"
+                    value="root"/>
+            <property name="javax.persistence.jdbc.password"
+                    value=""/>
+
+		<!-- mecanisme de cache et optimisation des requetes avec la base -->
+		<!-- autrement dit maintien 5 a 20 requetes parametre ds le cache pour ne pas les reconmpilé
+		et 50 statement en mm tps et timeout dune requete de 300seconde ou ttes les 3000seondes 
+		requte de test pour maintenir la connexion en vie -->
+          <property name="hibernate.c3p0.min_size"
+                    value="5"/>
+          <property name="hibernate.c3p0.max_size"
+                    value="20"/>
+          <property name="hibernate.c3p0.timeout"
+                    value="300"/>
+          <property name="hibernate.c3p0.max_statements"
+                    value="50"/>
+          <property name="hibernate.c3p0.idle_test_period"
+                    value="3000"/>
+			<!-- 
+				information sur la sybntaxe sql et la mise en place du mapping avec les tables
+			 -->
+          <property name="hibernate.dialect"
+                    value="org.hibernate.dialect.MySQL5Dialect"/>
+                    <!--  comportement a la connection initlale a la base
+                    et a la deconnexion
+                    ici on  lui dit ce quil fait quand il rencontre une entité ce quil fait
+                    valeur posssible: create-drop, create, update == crrer si la table existe pas et l'altere
+                    si la structure ne correspond pas, validate== pas de creation ni dalteration et erreurs
+                    imediate si la struture ne correspond pas et cqui est utilisé en prod -->
+		  <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+      </properties>
+   </persistence-unit>
+
+</persistence>

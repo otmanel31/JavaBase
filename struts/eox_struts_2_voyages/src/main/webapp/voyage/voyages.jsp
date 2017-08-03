@@ -35,10 +35,11 @@
 					<td><s:property value="agencee.nom"/> </td>
 					<td><s:property value="passport"/> </td>
 					<td>
-						<s:form action="editer" method="post" theme="simple" style="display: inline-block;">
+						<s:a action="editer/%{id}" class="btn btn-warning">Editer </s:a>
+						<!--<s:form action="editer" method="post" theme="simple" style="display: inline-block;">
 							<s:hidden name="id" />
 							<s:submit value="Editer" class="btn btn-warning"/>
-						</s:form>
+						</s:form>-->
 						<s:form action="delete" method="post" theme="simple" style="display: inline-block;">
 							<s:hidden name="id" />
 							<s:submit value="Supprimer" class="btn btn-danger"/>
