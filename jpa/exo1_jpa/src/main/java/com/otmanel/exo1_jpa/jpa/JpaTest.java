@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import com.otmanel.exo1_jpa.beans.Cours;
 import com.otmanel.exo1_jpa.beans.Etudiant;
@@ -77,34 +79,49 @@ public class JpaTest {
 		
 		Etudiant[] etudiants = new Etudiant[100];
 		for (int i=0; i< 100; i++) {
-			if(i<=25) {
-				Etudiant f = new Etudiant(0, "stupidMen"+i, "stupid"+i, "stupidstudent"+i+"@std.edu");
-				em.persist(f);
-			}else if(i>25 && i<=50) {
-				Etudiant f = new Etudiant(0, "BofstupidMen"+i, "stupid"+i, "bof"+i+"@std.bof");
+			Etudiant f = null;
+			if(i<50) {
+				 f = new Etudiant(0, "stupidMen"+i, "stupid"+i, "stupidstudent"+i+"@std.edu");
 				em.persist(f);
 			}
-			else if (i>50 && i <=75) {
-				Etudiant f = new Etudiant(0, "goodMen"+i, "goodMen"+i, "goodMen"+i+"@std.edu");
-				em.persist(f);
-			}
-			else if (i>75 && i <=98) {
-				Etudiant f = new Etudiant(0, "VerygoodMen"+i, "VerygoodMen"+i, "VerygoodMen"+i+"@std.edu");
+			else if (i>50 && i <=98) {
+				 f = new Etudiant(0, "VerygoodMen"+i, "VerygoodMen"+i, "VerygoodMen"+i+"@std.edu");
 				em.persist(f);
 			}
 			else {
-				Etudiant f = new Etudiant(0, "ZEBEST"+i, "ZEBEST"+i, "ZEBEST"+i+"@std.edu");
+				 f = new Etudiant(0, "ZEBEST"+i, "ZEBEST"+i, "ZEBEST"+i+"@std.edu");
 				em.persist(f);
 			}
+			etudiants[i] = f;
 			
 		}
+		String[] libelleMatiere = {"JAVA", "MaTH","anglais", "histoire", "linux", "Algo", "reseaux", "AAlgo", "reseaux"};
 		String[] libelleCours = {"intro java", "fonction affine", "verbes modaux", "culture 2.0", "script shell", "python"
 				, "ldap", "strutre de donnee", "tcp/ip"};
 		
 		Random r = new Random();
-		for(int j = 0; j<10; j++) { //  corriger
-			Cours c = new Cours(0, "intro-java"	, new Date(), new Date(118, 5, 26), 8);
+		for(int j = 0; j<10; j++) { //  corriger+
+			int matiereId = r.nextInt(matieres.length);
+			String lib = libelleMatiere[matiereId] + " - " + libelleCours[r.nextInt(libelleCours.length)];
 			
+			Cours c = new Cours(0, lib	, new Date(118, r.nextInt(5), 5), new Date(118, r.nextInt(5) + 5, 5),r.nextInt(12));
+			int count = 0;
+			for (Etudiant e: etudiants) {
+				//if (c.getCapaciteMax() == count) break;
+				if (r.nextDouble()>0.75) {
+					e.getListCours().add(c);
+				}
+				//int idToAdd = r.nextInt(etudiants.length);
+				
+				//c.getEtudiants().add(etudiants[idToAdd]);
+				//count ++ ;
+			}
+			int idToAd = r.nextInt(profs.length);
+			c.setProf(profs[idToAd]);
+			Matiere m = em.find(Matiere.class, matiereId);
+
+			c.setMatiere(m);
+			em.persist(c);
 		}
 		//--------- -------------------------------------------
 		tx.commit();
@@ -121,8 +138,46 @@ public class JpaTest {
 		tx.begin();
 		//----------------------------------------------------
 		
-	
+		System.out.println("REQUETE 1 ");
+		Query query1 = em.createQuery("select e, c from Etudiant as e join e.listCours as c where c.dateDebut>:dateDebut");
+		query1.setParameter("dateDebut", new Date(118, 3,1));
+		List<Object[]> cours = query1.getResultList();
+		for (Object[] e : cours) {
+			System.out.println(e[0] + "**** " + e[1]);
+			//for (Cours c :e.getListCours()) System.out.println("date debut " + c.getDateDebut() );
+		}
+		System.out.println("REQUETE 2 ");
+		Query qCours = em.createQuery("Select c, COUNT(e.id) from Cours as c join c.etudiants as e group by c.id ");
+		cours = qCours.getResultList();
+		for (Object[] c : cours) System.out.println(c[0] + " **** " + c[1]);
+		System.out.println("REQUETE 3 ");
+		Query qCours2 = em.createQuery("Select c, COUNT(e.id)*100/c.capaciteMax from Cours as c join c.etudiants as e group by c.id ");
+		cours = qCours2.getResultList();
+		for (Object[] c : cours) System.out.println(c[0] + " **** " + c[1]);
 		
+		System.out.println("REQUETE 4 ");
+		Query qCours4 = em.createQuery("Select m.libelle, COUNT(distinct e.id) "
+				+ "from Matiere as m join m.listCours as c "
+				+ "join c.etudiants as e group by m");
+		cours = qCours2.getResultList();
+		for (Object[] c : cours) System.out.println(Arrays.toString(c));
+		
+		System.out.println("REQUETE 5 ");
+		TypedQuery<Etudiant> qCours5 = em.createQuery("select distinct(e) from Etudiant as e "
+				+ "join e.listCours as c where c.prof.id = :pid",
+				Etudiant.class);
+		qCours5.setParameter("pid", 1);
+		List<Etudiant> estudiantes = qCours5.getResultList();
+		for (Etudiant e : estudiantes) System.out.println(e);
+		System.out.println("REQUETE  6 ");
+		TypedQuery<Etudiant> qCours6 = em.createQuery("select e from Etudiant as e "
+				+ "where not exists ("
+				+ "select e2 from Etudiant as e2 join e2.listCours as c where e2.id = e.id AND c.prof.id = :pid"
+				+ ")",
+				Etudiant.class);
+		qCours6.setParameter("pid", 1);
+		estudiantes = qCours6.getResultList();
+		for (Etudiant e : estudiantes) System.out.println(e);
 		//----------------------------------------------------
 		tx.commit();
 		em.close();

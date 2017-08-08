@@ -27,7 +27,7 @@ public class Cours {
 	@ManyToOne
 	private Matiere matiere;
 	
-	
+	//private int capateProgess;
 	
 	public Matiere getMatiere() {return matiere;}
 	public void setMatiere(Matiere matiere) {this.matiere = matiere;}
