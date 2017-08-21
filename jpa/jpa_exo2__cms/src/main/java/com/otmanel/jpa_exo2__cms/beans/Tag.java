@@ -16,7 +16,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Getter @Setter @NoArgsConstructor  @ToString
+@Getter @Setter @NoArgsConstructor  @ToString(exclude= {"contents"})
 public class Tag {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id 									private int id;

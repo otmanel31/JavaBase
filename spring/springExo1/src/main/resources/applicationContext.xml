@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+          http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+          http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util-4.0.xsd
+            http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+           http://www.springframework.org/schema/mvc
+			http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd"
+			default-autowire="byName">
+
+	<bean id="instrument1" class="com.otmanel.springExo1.beans.Violon">
+		<property name="nom" value="violon d'ingres" />
+	</bean>
+	<bean id="instrument2" class="com.otmanel.springExo1.beans.Trompette" scope="prototype">
+		<property name="nom" value="trompete de larmee" />
+	</bean>
+	<bean id="mozart" class="com.otmanel.springExo1.beans.Musicien">
+		<property name="nom" value="mozart" />
+		<property name="instrument" ref="instrument1" />
+	</bean>
+	<bean id="soldat" class="com.otmanel.springExo1.beans.Musicien">
+		<property name="nom" value="Forest gump" />
+		<property name="instrument" ref="instrument2" />
+	</bean>
+	<bean id="soldat2" class="com.otmanel.springExo1.beans.Musicien">
+		<property name="nom" value="engagé baleine" />
+		<property name="instrument" ref="instrument2" />
+	</bean>
+	<bean id="intru" class="com.otmanel.springExo1.beans.HommeOrchestre">
+		<property name="nom" value="skynet" />
+		<property name="instruments">
+			<list>
+				<ref bean="instrument1"/>
+				<ref bean="instrument2"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="jongleur" class="com.otmanel.springExo1.beans.Jongleur">
+		<constructor-arg index="0" value="Meaga jongleur " />
+		<constructor-arg index="1" value="8" />
+	</bean>
+	<bean id="generateurViolon" class="com.otmanel.springExo1.beans.Luthier">
+		<property name="nomInstrument">
+			<list>
+				<value>violon d'ingres</value>
+				<value>mon violon</value>
+				<value>ze violon</value>
+				<value>big biolon</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="violoniste" class="com.otmanel.springExo1.beans.Musicien">
+		<property name="nom" value="radin" />
+		<property name="instrument">
+			<bean class="com.otmanel.springExo1.beans.IInstrument"
+				factory-bean="generateurViolon" factory-method="genererInstrument">
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="leGeneral" class="com.otmanel.springExo1.beans.GenerateurDeBruuuuuit"></bean>
+	<aop:config>
+		<aop:aspect ref="leGeneral">
+			<aop:pointcut expression="execution(* com.otmanel.springExo1.beans.IArtitste.faireUnNumero(..)) and target(bean)" 
+				id="avantDebutNumero"/>
+			<aop:pointcut expression="execution(* com.otmanel.springExo1.beans.IArtitste.faireUnNumero(..)) and target(bean)" 
+				id="apresNumero"/>
+			<aop:before method="applaudir" pointcut-ref="avantDebutNumero" arg-names="bean"/>
+			<aop:after method="huer" pointcut-ref="apresNumero" arg-names="bean"/>
+		</aop:aspect>
+	</aop:config>
+</beans>

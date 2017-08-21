@@ -13,7 +13,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Getter @Setter @NoArgsConstructor @ToString(callSuper=true)
+@Getter @Setter @NoArgsConstructor @ToString(callSuper=true, exclude= {"galerie"})
 public class Image extends Content{
 					private String filename;
 					private String typeimage;

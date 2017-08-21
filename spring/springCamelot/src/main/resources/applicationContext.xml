@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+          http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+          http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util-4.0.xsd
+            http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+           http://www.springframework.org/schema/mvc
+			http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd"
+			default-autowire="byName">
+
+	<bean id="quete1" class="com.otmanel.springCamelot.beans.QueteBasic">
+			<property name="description" value="compter pierre chateaux" />
+			<property name="difficulte" value="2.5" />
+	</bean>
+	<bean id="quete2" class="com.otmanel.springCamelot.beans.QueteBasic">
+			<property name="description" value="nettoyer les ecuries" />
+			<property name="difficulte" value="1.5" />
+	</bean>
+	<bean id="quete3" class="com.otmanel.springCamelot.beans.QueteBasic">
+			<property name="description" value="faire un tour de garde" />
+			<property name="difficulte" value="4.5" />
+	</bean>
+	<!-- scope prototype pour ne pas utiliser la mm instance  
+		autre scope : request = reinstanciation a chaque requette, session, app etc-->
+	<bean id="quete4" class="com.otmanel.springCamelot.beans.QueteEpique" scope="prototype">
+			<property name="description" value="sauver une damze" />
+			<property name="difficulte" value="8.5" />
+	</bean>
+	<bean id="quete5" class="com.otmanel.springCamelot.beans.QueteEpique">
+			<property name="description" value="manger un sanglier de la montagne de feu" />
+			<property name="difficulte" value="10.0" />
+	</bean>
+	<bean id="jacquouille" class="com.otmanel.springCamelot.beans.ChevalierBasic">
+		<constructor-arg index="0" value="jacquouille" />
+		<property name="quete" ref="quete1"/>
+		<property name="competence" value="4.0"/>
+		
+	</bean>
+	<bean id="Terminator" class="com.otmanel.springCamelot.beans.ChevalierBasic" 
+		lazy-init="true">
+		<constructor-arg index="0" value="Terminator" />
+		<property name="quete" ref="quete3"/>
+		<property name="competence" value="9.5"/>
+		
+	</bean>
+	<bean id="Godfroy" class="com.otmanel.springCamelot.beans.ChevalierBasic">
+		<constructor-arg index="0" value="Godfroy" />
+		<property name="quete" ref="quete4"/>
+		<property name="competence" value="5.3"/>
+		
+	</bean>
+	<bean id="Merlin" class="com.otmanel.springCamelot.beans.Merlin">
+		<property name="actions">
+			<list>
+				<value>sauver</value>
+				<value>trucider</value>
+				<value>apporter</value>
+				<value>escorter</value>
+				<value>purifier</value>
+			</list>
+		</property>
+		<property name="sujets">
+			<list>
+				<value>dames</value>
+				<value>princesse</value>
+				<value>dragons</value>
+				<value>tresors</value>
+				<value>chevalier</value>
+			</list>
+		</property>
+		<property name="qualificatifs">
+			<list>
+				<value>du lac</value>
+				<value>lambda</value>
+				<value>de feu</value>
+				<value>mystique</value>
+				<value>noir</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="Karadoc" class="com.otmanel.springCamelot.beans.ChevalieTableRonde">
+		<constructor-arg index="0" value="Karadoc" />
+		<property name="quete" ref="quete5"/>
+		<property name="competence" value="8.3"/>
+		<property name="monture">
+			<bean class="com.otmanel.springCamelot.beans.Cheval" 
+				factory-bean="ecurie" factory-method="fournirChevaux">
+			</bean>
+		</property>
+	</bean>
+	<bean id="Lancelot" class="com.otmanel.springCamelot.beans.ChevalieTableRonde">
+		<constructor-arg index="0" value="Lancelot" />
+		<property name="quete" ref="quete4"/>
+		<property name="competence" value="8.3"/>
+		<property name="monture">
+			<bean class="com.otmanel.springCamelot.beans.Cheval" 
+				factory-bean="ecurie" factory-method="fournirChevaux">
+			</bean>
+		</property>
+	</bean>
+	<bean id="Link" class="com.otmanel.springCamelot.beans.ChevalieTableRonde">
+		<constructor-arg index="0" value="Link" />
+		<property name="quete">
+			<bean class="com.otmanel.springCamelot.beans.IQuete"
+					factory-bean="Merlin" factory-method="genererQuete">
+			</bean>
+		</property>
+		<property name="competence" value="8.9"/>
+		<property name="monture">
+			<bean class="com.otmanel.springCamelot.beans.Cheval" 
+				factory-bean="ecurie" factory-method="fournirChevaux">
+			</bean>
+		</property>
+	</bean>
+	<bean id="ecurie" class="com.otmanel.springCamelot.beans.Ecurie">
+		<property name="chevaux">
+			<list>
+				<bean class="com.otmanel.springCamelot.beans.Cheval" >
+					<constructor-arg index="0" value="Tonnerre" />
+				</bean>
+				<bean class="com.otmanel.springCamelot.beans.Cheval" >
+					<constructor-arg index="0" value="Jolly Jumper" />
+				</bean>
+				<bean class="com.otmanel.springCamelot.beans.Cheval" >
+					<constructor-arg index="0" value="Tornado" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="assuranceTtRisque" class="com.otmanel.springCamelot.beans.Menestrel">
+		
+	</bean>
+	<!--  a linterieur de cette balise la configuration == ASPECT ORIENT PROGRAMMING 
+			-> fait dinjecter des taitement a different endroit du code de maniere transparente
+	 -->
+	<aop:config>
+		<!--  ou definit ici sur quoi sapplique assurabce tt risque qui est notre menestrel -->
+		<aop:aspect ref="assuranceTtRisque">
+			<!--  exectuin + * peut importe la methode sinbon mettre void ou le type -> 
+					on vise une methode peut importte son type de retour qui preend en param x nb de param, 
+			.. nimporte list dargument, si un seul arg quelque soit sont type 
+			mettre * ou int suivi d'un autre args si on ve-->
+			<aop:pointcut expression="execution(* com.otmanel.springCamelot.beans.ChevalieTableRonde.partir*(..)) and target(bean)" 
+				id="avantQuete"/>
+			<aop:pointcut expression="execution(* com.otmanel.springCamelot.beans.ChevalieTableRonde.partir*(..)) and target(bean)" 
+				id="apresQuete"/>
+			<!-- ici on applique le menestrel en indiquant le type de conseil(avant, apres )
+				sur quel point de coupe on applique et enfin la methode fournissant 
+				le conseil (a executer)
+			 -->
+			<aop:before method="chanterAvant" pointcut-ref="avantQuete" arg-names="bean"/>
+			<aop:after-returning method="chanterApres" pointcut-ref="apresQuete" arg-names="bean"/>
+		</aop:aspect>
+	</aop:config>
+</beans>

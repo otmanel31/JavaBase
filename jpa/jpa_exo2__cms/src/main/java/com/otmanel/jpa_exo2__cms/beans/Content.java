@@ -24,7 +24,7 @@ import lombok.ToString;
 
 @Entity //par defayut sin non precisé c du join et nn single table
 @Inheritance(strategy=InheritanceType.JOINED)
-@Getter @Setter @NoArgsConstructor  @ToString
+@Getter @Setter @NoArgsConstructor  @ToString(exclude= {"tags"})
 @EntityListeners(Dateur.class)
 public class Content implements IDateable{
 	
