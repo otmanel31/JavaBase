@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+          http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+          http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util-4.0.xsd
+            http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+           http://www.springframework.org/schema/mvc
+			http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd"
+			default-autowire="byName">
+	<!--  ici la datasource cad notre connexion avc la bdd -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/exo_allocine_SHS" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+	</bean>
+	
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" /> <!-- ici les 2 correspondent et comme
+			on a le autowirebyname ce nest pas obligatoire
+		 -->
+		 <!-- bean spring responsable de l initialisation et de la gestion de l'entity manager factory
+		 	et de fournir les entitymanager aux dao qui en auront besoin
+			  -->
+		 <property name="jpaVendorAdapter">
+		 	<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		 		<property name="databasePlatform" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+		 		<property name="showSql" value="true" />
+		 	</bean>
+		 </property>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<!-- on doit lui injecter lentity manager factory 
+			il est responsable de nos transactions jpa pour nos dao
+			grace a laop il ouvrira automatiquement les transactions la ou on en a besoin
+		-->
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	<!--  ce bean la va scanner automatiquement nos classse pour detecter les entité (@entity ....) 
+	et les rajoute ds le mapping-->
+	 <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor">
+	 </bean>
+	 <!-- responable de scanner automatiquement les annotation @transactionnal de nos dao -->
+	 <tx:annotation-driven transaction-manager="transactionManager"/>
+	<bean id="message" class="com.otmanel.exo_struts_jpa_spring.metier.Message">
+		<property name="text" value="bonjour depuis spring" />
+	</bean>
+</beans>
