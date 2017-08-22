@@ -15,7 +15,50 @@
         <action name="index" class="com.otmanel.struts2_spring_jpaFirst.actions.IndexAction" method="index" >
             <result name="success">/index.jsp</result>
         </action>
-
+        <!-- Produits -->
+		<action name="produits" class="com.otmanel.struts2_spring_jpaFirst.actions.ProduitAction" method="liste" >
+            <result name="success">/produits/liste.jsp</result>
+        </action>
+        <action name="produit/edit/*" class="com.otmanel.struts2_spring_jpaFirst.actions.ProduitAction" method="edit" >
+        	<param name="id">{1}</param>
+            <result name="success">/produits/edit.jsp</result>
+        </action>
+        <action name="produit/save" class="com.otmanel.struts2_spring_jpaFirst.actions.ProduitAction" method="save" >
+            <result name="success" type="redirect">/produits</result>
+        </action>
+        <action name="produit/delete" class="com.otmanel.struts2_spring_jpaFirst.actions.ProduitAction" method="delete" >
+            <result name="success" type="redirect">/produits</result>
+        </action>
+        <action name="produit/create" class="com.otmanel.struts2_spring_jpaFirst.actions.ProduitAction" method="create" >
+            <result name="success">/produits/edit.jsp</result>
+        </action>
+        <action name="produit/catRemove/*/*" class="com.otmanel.struts2_spring_jpaFirst.actions.ProduitAction" method="removeCategorieFromProduct" >
+            <param name="pid">{1}</param>
+            <param name="cid">{2}</param>
+            <result name="success" type="redirect">/produits</result>
+        </action>
+        <action name="produit/catAdd/*/*" class="com.otmanel.struts2_spring_jpaFirst.actions.ProduitAction" method="addCategorieToProduct" >
+            <param name="pid">{1}</param>
+            <param name="cid">{2}</param>
+            <result name="success" type="redirect">/produits</result>
+        </action>
+        <!-- categorie -->
+        <action name="categories" class="com.otmanel.struts2_spring_jpaFirst.actions.CategorieAction" method="liste" >
+            <result name="success">/categories/liste.jsp</result>
+        </action>
+        <action name="categorie/edit/*" class="com.otmanel.struts2_spring_jpaFirst.actions.CategorieAction" method="edit" >
+        	<param name="id">{1}</param>
+            <result name="success">/categories/edit.jsp</result>
+        </action>
+        <action name="categorie/save" class="com.otmanel.struts2_spring_jpaFirst.actions.CategorieAction" method="save" >
+            <result name="success" type="redirect">/categories</result>
+        </action>
+        <action name="categorie/delete" class="com.otmanel.struts2_spring_jpaFirst.actions.CategorieAction" method="delete" >
+            <result name="success" type="redirect">/categories</result>
+        </action>
+        <action name="categorie/create" class="com.otmanel.struts2_spring_jpaFirst.actions.CategorieAction" method="create" >
+            <result name="success">/categories/edit.jsp</result>
+        </action>
     </package>
 
     <!-- Add addition packages and configuration here. -->

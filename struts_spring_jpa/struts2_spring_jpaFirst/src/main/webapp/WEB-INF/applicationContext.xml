@@ -58,4 +58,7 @@
 	 </bean>
 	 <!-- responable de scanner automatiquement les annotation @transactionnal de nos dao -->
 	 <tx:annotation-driven transaction-manager="transactionManager"/>
+	 <bean id="produitDao" class="com.otmanel.struts2_spring_jpaFirst.repositories.ProduitDao"></bean>
+	 <bean id="categorieDao" class="com.otmanel.struts2_spring_jpaFirst.repositories.CategorieDao"></bean>
+	 <bean id="catDao" class="com.otmanel.struts2_spring_jpaFirst.repositories.CatDao"></bean>
 </beans>
