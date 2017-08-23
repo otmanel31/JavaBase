@@ -17,7 +17,13 @@ public class FilmAction extends ActionSupport implements ModelDriven<Film>{
 	private List<Realisateur> realisateurs;
 	private List<Acteur> acteurs2;
 	private List<Acteur> acteursNotInFilm;
+	private int fid;
+	private int aid;
 	
+	public int getFid() {return fid;}
+	public void setFid(int fid) {this.fid = fid;}
+	public int getAid() {return aid;}
+	public void setAid(int aid) {this.aid = aid;}
 	public List<Acteur> getActeurs2() {return acteurs2;}
 	public void setActeurs2(List<Acteur> acteursInFilm) {this.acteurs2 = acteursInFilm;}
 	public List<Acteur> getActeursNotInFilm() {return acteursNotInFilm;}
@@ -70,6 +76,14 @@ public class FilmAction extends ActionSupport implements ModelDriven<Film>{
 		if( filmOld != null) 
 			this.model.setActeurs(filmOld.getActeurs());
 		filmDao.save(getModel());
+		return SUCCESS;
+	}
+	public String removeActeur(int fid, int aid){
+		filmDao.removeActeurFromFilm(fid, aid);
+		return SUCCESS;
+	}
+	public String addActeur() {
+		filmDao.addActeurToFilm(fid, aid);
 		return SUCCESS;
 	}
 }

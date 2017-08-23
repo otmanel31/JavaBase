@@ -17,5 +17,8 @@ public interface IFilmDao {
 	Film save(Film p);
 
 	void delete(int id);
-
+	
+	public void removeActeurFromFilm(int fid, int aid);
+	
+	public void addActeurToFilm(int filmId, int acteurId);
 }

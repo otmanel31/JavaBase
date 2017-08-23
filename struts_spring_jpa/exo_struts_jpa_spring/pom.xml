@@ -174,11 +174,11 @@
       				<container>
 	        			<containerId>tomcat8x</containerId>
 	        			<type>installed</type>
-	    				<home>C:\Users\Stagiaire\Desktop\apache-tomcat-8.5.16</home>
+	    				<home>/home/badman/apache-tomcat-8.5.16</home>
     				</container>
     				<configuration>
     					<type>existing</type>
-                    	<home>C:\Users\Stagiaire\Desktop\apache-tomcat-8.5.16</home>
+                    	<home>/home/badman/apache-tomcat-8.5.16</home>
     				</configuration>
                     <deployables>
                         <deployable>

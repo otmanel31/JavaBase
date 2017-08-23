@@ -21,7 +21,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<s:iterator value="films" />
+				<s:iterator value="films">
 					<tr>
 						<td><s:property value="id"/> </td>
 						<td><s:property value="titre"/> </td>
@@ -41,6 +41,7 @@
 							</s:form>
 						</td>
 					</tr>
+				</s:iterator>
 			</tbody>
 		</table>
 		<s:a action="film/create">creer un film</s:a>

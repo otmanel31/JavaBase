@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.otmanel.exo_struts_jpa_spring.metier.Acteur;
 import com.otmanel.exo_struts_jpa_spring.metier.Film;
 
 
@@ -53,5 +54,22 @@ public class FilmDao implements IFilmDao {
 	public void delete(int id) {
 		Film p = em.find(Film.class, id);
 		if (p != null) em.remove(p);
+	}
+	@Override
+	@Transactional
+	public void removeActeurFromFilm(int fid, int aid){
+		Film f = em.find(Film.class, fid);
+		Acteur a = em.find(Acteur.class, aid);
+		if (f == null || a == null) return;
+		f.getActeurs().remove(a);
+		
+	}
+	@Override
+	@Transactional
+	public void addActeurToFilm(int filmId, int acteurId) {
+		Film f = em.find(Film.class, filmId);
+		Acteur a = em.find(Acteur.class, acteurId);
+		if (f == null || a == null) return;
+		f.getActeurs().add(a);
 	}
 }
