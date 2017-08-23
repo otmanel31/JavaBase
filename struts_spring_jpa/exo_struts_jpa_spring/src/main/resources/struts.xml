@@ -10,13 +10,32 @@
 
     <package name="default" namespace="/" extends="struts-default">
 
-        <default-action-ref name="index"/>
+        <default-action-ref name="films"/>
 
-        <action name="index" class="com.otmanel.exo_struts_jpa_spring.actions.IndexAction" method="index" >
-            <result name="success">/index.jsp</result>
-        </action>
-
+		<action name="films" class="com.otmanel.exo_struts_jpa_spring.actions.FilmAction" method="liste">
+			<result name="success">/film/liste.jsp</result>
+		</action>
+		<action name="film/edit/*" class="com.otmanel.exo_struts_jpa_spring.actions.FilmAction" method="edit">
+			<param name="id">{1}</param>
+			<result name="success">/film/edit.jsp</result>
+		</action>
+		<action name="film/save" class="com.otmanel.exo_struts_jpa_spring.actions.FilmAction" method="save">
+			<result name="success" type="redirect">/films</result>
+		</action>
+		<action name="film/delete" class="com.otmanel.exo_struts_jpa_spring.actions.FilmAction" method="delete">
+			<result name="success" type="redirect">/films</result>
+		</action>
+		<action name="film/acteuremove/*/*" class="com.otmanel.exo_struts_jpa_spring.actions.FilmAction" method="removeActeur">
+			<param name="fid">{1}</param>
+			<param name="aid">{2}</param>
+			<result name="success" type="redirect">/film/${fid}</result>
+		</action>
+		<action name="film/acteuradd/*/*" class="com.otmanel.exo_struts_jpa_spring.actions.FilmAction" method="addActeur">
+			<param name="fid">{1}</param>
+			<param name="aid">{2}</param>
+			<result name="success" type="redirect">/film/${fid}</result>
+		</action>
     </package>
-
+	
     <!-- Add addition packages and configuration here. -->
 </struts>

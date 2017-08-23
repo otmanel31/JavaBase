@@ -19,6 +19,11 @@
            http://www.springframework.org/schema/mvc
 			http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd"
 			default-autowire="byName">
+		<!-- on indique a spring daller scanner un package et c classe et sil trouve des annotations spring il les charges
+			au demarrage du contexte + mise en placce dun filtre dans le web.xml
+		
+		<context:component-scan base-package="com.otmanel.exo_struts_jpa_spring.security"/>	
+			-->
 	<!--  ici la datasource cad notre connexion avc la bdd -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -55,7 +60,8 @@
 	 </bean>
 	 <!-- responable de scanner automatiquement les annotation @transactionnal de nos dao -->
 	 <tx:annotation-driven transaction-manager="transactionManager"/>
-	<bean id="message" class="com.otmanel.exo_struts_jpa_spring.metier.Message">
-		<property name="text" value="bonjour depuis spring" />
-	</bean>
+
+	<bean id="filmDao" class="com.otmanel.exo_struts_jpa_spring.repositories.FilmDao"></bean>
+	<bean id="realisateurDao" class="com.otmanel.exo_struts_jpa_spring.repositories.RealisateurDao"></bean>
+	<bean id="acteurDao" class="com.otmanel.exo_struts_jpa_spring.repositories.ActeurDao"></bean>
 </beans>
