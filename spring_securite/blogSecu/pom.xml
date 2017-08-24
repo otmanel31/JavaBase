@@ -2,20 +2,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.otmanel</groupId>
-    <artifactId>exo_struts_jpa_spring</artifactId>
+    <artifactId>blogSecu</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>exo_struts_jpa_spring</name>
+    <name>blogSecu</name>
 
-    <properties>
+  <properties>
         <struts2.version>2.3.24</struts2.version>
         <spring.version>4.3.10.RELEASE</spring.version>
+        <hibernate.version>5.2.10.Final</hibernate.version>
         <log4j2.version>2.2</log4j2.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
-    <!-- dependance spring security -->
+		<!-- dependance spring security -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-core</artifactId>
@@ -32,64 +33,8 @@
 		    <artifactId>spring-security-config</artifactId>
 		    <version>4.2.3.RELEASE</version>
 		</dependency>
-    <!-- autre dependances -->
-    	<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.16.18</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-			<version>1.8.6</version>
-		</dependency>
-		<!-- code generation lib ou sorte de aspectj +++ -->
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib-nodep</artifactId>
-			<version>3.2.5</version>
-		</dependency>
-		<!-- hibernate jpa -->
-		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-core</artifactId>
-		    <version>5.2.10.Final</version>
-		</dependency>
-		<!-- support des nouveau types date de java 8  -->
-		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-java8</artifactId>
-		    <version>5.2.10.Final</version>
-		</dependency>
-		<dependency>
-		    <groupId>mysql</groupId>
-		    <artifactId>mysql-connector-java</artifactId>
-		    <version>5.1.43</version>
-		</dependency>
-    <!-- Spring dependency -->
-    	<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-context</artifactId>
-		    <version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-	<!-- Struts dependency -->
-        <dependency>
+		<!-- dependances struts 2 -->
+         <dependency>
             <groupId>org.apache.struts</groupId>
             <artifactId>struts2-core</artifactId>
             <version>${struts2.version}</version>
@@ -100,8 +45,9 @@
             	</exclusion>
             </exclusions>
         </dependency>
-		<!--  permet linjection des beans spring automatiquelebt dabs les action sstruts2 -->
-		<dependency>
+        <!-- ce plugin permet l'injection des beans spring
+         automatiquement dans les actions struts2 -->
+ 		<dependency>
             <groupId>org.apache.struts</groupId>
             <artifactId>struts2-spring-plugin</artifactId>
             <version>${struts2.version}</version>
@@ -112,12 +58,90 @@
             	</exclusion>
             </exclusions>
         </dependency>
+        <!-- ce plugin permet le gestion du json dans struts2 -->
+ 		<dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-json-plugin</artifactId>
+            <version>${struts2.version}</version>
+            <exclusions>
+            	<exclusion>
+	            	<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
+            	</exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>org.apache.struts</groupId>
             <artifactId>struts2-config-browser-plugin</artifactId>
             <version>${struts2.version}</version>
         </dependency>
 
+		<!-- dependances spring -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-web</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-tx</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-orm</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.8.6</version>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>3.2.5</version>
+		</dependency>
+
+		<!-- hibernate/jpa -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-core</artifactId>
+		    <version>${hibernate.version}</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-java8</artifactId>
+		    <version>${hibernate.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>5.1.43</version>
+		</dependency>
+		
+		<!--  autres dependances -->
+		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+			<dependency>
+			    <groupId>commons-codec</groupId>
+			    <artifactId>commons-codec</artifactId>
+			    <version>1.10</version>
+			</dependency>
+		
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.18</version>
+			<scope>provided</scope>
+		</dependency>
+		
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
@@ -128,7 +152,7 @@
             <artifactId>log4j-core</artifactId>
             <version>${log4j2.version}</version>
         </dependency>
-		<dependency>
+		 <dependency>
 		    <groupId>commons-logging</groupId>
 		    <artifactId>commons-logging</artifactId>
 		    <version>1.2</version>
@@ -152,6 +176,7 @@
 		    <version>2.3.1</version>
 		    <scope>provided</scope>
 		</dependency>
+	    
 		
     </dependencies>
 
