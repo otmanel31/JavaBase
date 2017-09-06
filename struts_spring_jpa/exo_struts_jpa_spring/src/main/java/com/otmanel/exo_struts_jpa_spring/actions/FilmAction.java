@@ -86,4 +86,8 @@ public class FilmAction extends ActionSupport implements ModelDriven<Film>{
 		filmDao.addActeurToFilm(fid, aid);
 		return SUCCESS;
 	}
+	public String restListe() {
+		films = filmDao.findAll();
+		return SUCCESS;
+	}
 }

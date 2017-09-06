@@ -14,9 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JOptionPane;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -25,7 +23,7 @@ import javax.xml.stream.XMLStreamWriter;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
+
 
 
 
@@ -34,6 +32,13 @@ import org.xml.sax.helpers.XMLReaderFactory;
 public class Program {
 
 	public static void main(String[] args) {
+		exportData();
+		
+	}
+	public static void importData() {
+		
+	}
+	public static void exportData() {
 		try {
 			String nombase = JOptionPane.showInputDialog("nom de la base ? ");
 			//String nomtable = JOptionPane.showInputDialog("nom de la tabe ? ");
@@ -125,7 +130,5 @@ public class Program {
 		} catch (FactoryConfigurationError e) {
 			e.printStackTrace();
 		}
-
 	}
-
 }

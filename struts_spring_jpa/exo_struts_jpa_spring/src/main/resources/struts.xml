@@ -8,12 +8,25 @@
 	<constant name="struts.action.extension" value=","/>
     <constant name="struts.enable.SlashesInActionNames" value="true" />
 
-    <package name="default" namespace="/" extends="struts-default">
-
+    <!-- ancienne version avant json <package name="default" namespace="/" extends="struts-default">
+	 -->
+	 <package name="default" namespace="/" extends="json-default">
+	 
         <default-action-ref name="films"/>
-
 		<action name="films" class="com.otmanel.exo_struts_jpa_spring.actions.FilmAction" method="liste">
 			<result name="success">/film/liste.jsp</result>
+		</action>
+		<action name="restFilms" class="com.otmanel.exo_struts_jpa_spring.actions.FilmAction" method="restListe">
+			<result name="success" type="json">
+				<param name="root">
+					films
+				</param>
+				<param name="excludeProperties">
+					.*realisateur.*,
+					.*acteurs.*
+				</param>
+				
+			</result>
 		</action>
 		<action name="film/edit/*" class="com.otmanel.exo_struts_jpa_spring.actions.FilmAction" method="edit">
 			<param name="id">{1}</param>

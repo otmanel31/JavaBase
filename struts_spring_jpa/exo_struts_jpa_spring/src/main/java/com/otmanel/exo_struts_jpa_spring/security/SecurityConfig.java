@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/film/**").authenticated()
 			.antMatchers("/films").hasRole("USER")
 			.antMatchers("/admin").hasRole("ADMIN")
-			.antMatchers("/").anonymous()
+			.antMatchers("/", "/restFilms").permitAll()
 			.and().formLogin().and().httpBasic(); // a la fin on dit quon veut un login par formulaire et non securisé (pas de ssl)
 	}
 	
